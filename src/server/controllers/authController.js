@@ -27,7 +27,7 @@ exports.register = [
     }
 
     try {
-      bcrypt.hash(req.body.password, 10, (err, hash) => {
+      bcrypt.hash(req.body.password, 10, (_err, hash) => {
         const otp = oneTimePassword.generate(4);
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
@@ -46,8 +46,8 @@ exports.register = [
               confirmOTP: otp,
             });
 
-            user.save((error) => {
-              if (error) return res.serverError(error);
+            user.save((err) => {
+              if (err) return res.serverError(err);
 
               const userData = {
                 // eslint-disable-next-line no-underscore-dangle

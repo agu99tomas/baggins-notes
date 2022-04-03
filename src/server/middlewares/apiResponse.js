@@ -1,44 +1,44 @@
-const apiResponse = (req, res, next) => {
-  res.success = (msg) => {
+const apiResponse = (_req, res, next) => {
+  res.success = (message) => {
     const data = {
-      message: msg,
+      message,
     };
     return res.status(200).json(data);
   };
 
-  res.successWithData = (msg, data) => {
+  res.successWithData = (message, data) => {
     const resData = {
-      message: msg,
+      message,
       data,
     };
     return res.status(200).json(resData);
   };
 
-  res.serverError = (msg) => {
+  res.serverError = (message) => {
     const data = {
-      message: msg,
+      message,
     };
     return res.status(500).json(data);
   };
 
-  res.notFound = (msg) => {
+  res.notFound = (message) => {
     const data = {
-      message: msg,
+      message,
     };
     return res.status(404).json(data);
   };
 
-  res.validationErrorWithData = (msg, data) => {
+  res.validationErrorWithData = (message, data) => {
     const resData = {
-      message: msg,
+      message,
       data,
     };
     return res.status(400).json(resData);
   };
 
-  res.unauthorized = (msg) => {
+  res.unauthorized = (message) => {
     const data = {
-      message: msg,
+      message,
     };
     return res.status(401).json(data);
   };
