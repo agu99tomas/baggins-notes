@@ -7,6 +7,7 @@ const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
 const registerValidator = require('../validators/registerValidator');
 const verifyConfirmValidator = require('../validators/verifyConfirmValidator');
+const resendConfirmOtp = require('../validators/resendConfirmOtpValidator');
 
 /**
  * User registration.
@@ -106,6 +107,53 @@ exports.verifyConfirm = [
           isConfirmed: 1,
           confirmOTP: null,
         }).then(() => response.success(res, 'Account confirmed success.'));
+      });
+    } catch (err) {
+      return response.serverError(res, err);
+    }
+  },
+];
+
+/**
+ * Resend Confirm otp.
+ *
+ * @param {string}      email
+ *
+ * @returns {Object}
+ */
+exports.resendConfirmOtp = [
+  resendConfirmOtp,
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return response.validationErrorWithData(
+        res,
+        'Validation Error',
+        errors.array(),
+      );
+    }
+
+    try {
+      const query = { email: req.body.email };
+      UserModel.findOne(query).then((user) => {
+        if (!user) return response.unauthorized(res, 'Specified email not found.');
+        if (user.isConfirmed) return response.unauthorized(res, 'Account already confirmed.');
+
+        const otp = oneTimePassword.generate(4);
+        const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
+        mailer
+          .send(
+            constants.confirmEmails.from,
+            req.body.email,
+            'Confirm Account',
+            html,
+          )
+          .then(() => {
+            UserModel.findOneAndUpdate(query, {
+              isConfirmed: 0,
+              confirmOTP: otp,
+            }).then(() => response.success(res, 'Confirm otp sent.'));
+          });
       });
     } catch (err) {
       return response.serverError(res, err);
