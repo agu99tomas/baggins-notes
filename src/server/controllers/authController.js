@@ -6,6 +6,7 @@ const oneTimePassword = require('../helpers/oneTimePassword');
 const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
 const registerValidator = require('../validators/registerValidator');
+const verifyConfirmValidator = require('../validators/verifyConfirmValidator');
 
 /**
  * User registration.
@@ -68,6 +69,47 @@ exports.register = [
               );
             });
           });
+      });
+    } catch (err) {
+      return response.serverError(res, err);
+    }
+  },
+];
+
+/**
+ * Verify Confirm otp.
+ *
+ * @param {string}      email
+ * @param {string}      otp
+ *
+ * @returns {Object}
+ */
+exports.verifyConfirm = [
+  verifyConfirmValidator,
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return response.validationErrorWithData(
+        res,
+        'Validation Error',
+        errors.array(),
+      );
+    }
+
+    try {
+      const query = { email: req.body.email };
+      UserModel.findOne(query).then((user) => {
+        if (!user) return response.unauthorized(res, 'Specified email not found.');
+        if (user.isConfirmed) return response.unauthorized(res, 'Account already confirmed.');
+        if (user.confirmOTP !== req.body.otp) return response.unauthorized(res, 'Otp does not match');
+
+        UserModel.findOneAndUpdate(
+          query,
+          { isConfirmed: 1, confirmOTP: null },
+          { new: true },
+        );
+
+        return response.success(res, 'Account confirmed success.');
       });
     } catch (err) {
       return response.serverError(res, err);
