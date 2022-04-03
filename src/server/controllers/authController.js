@@ -33,16 +33,7 @@ exports.register = [
     try {
       bcrypt.hash(req.body.password, 10, (err, hash) => {
         const otp = oneTimePassword.generate(4);
-        const user = new UserModel({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: hash,
-          confirmOTP: otp,
-        });
-
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
-
         mailer
           .send(
             constants.confirmEmails.from,
@@ -51,6 +42,14 @@ exports.register = [
             html,
           )
           .then(() => {
+            const user = new UserModel({
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              password: hash,
+              confirmOTP: otp,
+            });
+
             user.save((error) => {
               if (error) return response.serverError(res, error);
 
