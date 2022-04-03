@@ -6,6 +6,16 @@ const oneTimePassword = require('../helpers/oneTimePassword');
 const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
 
+/**
+ * User registration.
+ *
+ * @param {string}      firstName
+ * @param {string}      lastName
+ * @param {string}      email
+ * @param {string}      password
+ *
+ * @returns {Object}
+ */
 // eslint-disable-next-line consistent-return
 exports.register = (req, res) => {
   const errors = validationResult(req);
