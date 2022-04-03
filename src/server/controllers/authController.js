@@ -16,7 +16,6 @@ const { constants } = require('../helpers/constants');
  *
  * @returns {Object}
  */
-// eslint-disable-next-line consistent-return
 exports.register = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

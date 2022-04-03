@@ -7,6 +7,7 @@
   },
   "rules": {
     "react/jsx-filename-extension": "off",
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": ["error", "windows"],
+    "consistent-return": "off"
   }
 }
