@@ -1,9 +1,16 @@
+const mongoose = require('mongoose');
 const express = require('express');
-const os = require('os');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+const routes = require('./routes/routes');
+
+mongoose.connect('mongodb://localhost/baggins-notes');
 
 const app = express();
 
+app.listen(process.env.PORT || 8080);
 app.use(express.static('dist'));
-app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+app.use('/api/', routes);
