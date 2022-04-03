@@ -6,7 +6,7 @@ const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
 const registerValidator = require('../validators/registerValidator');
 const verifyConfirmValidator = require('../validators/verifyConfirmValidator');
-const resendConfirmOtp = require('../validators/resendConfirmOtpValidator');
+const resendConfirmOtpValidator = require('../validators/resendConfirmOtpValidator');
 
 /**
  * User registration.
@@ -109,7 +109,7 @@ exports.verifyConfirm = [
  * @returns {Object}
  */
 exports.resendConfirmOtp = [
-  resendConfirmOtp,
+  resendConfirmOtpValidator,
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
