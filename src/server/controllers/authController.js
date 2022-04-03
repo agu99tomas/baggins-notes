@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const UserModel = require('../models/userModel');
-const response = require('../helpers/response');
 const oneTimePassword = require('../helpers/oneTimePassword');
 const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
@@ -24,11 +23,7 @@ exports.register = [
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return response.validationErrorWithData(
-        res,
-        'Validation Error',
-        errors.array(),
-      );
+      return res.validationErrorWithData('Validation Error', errors.array());
     }
 
     try {
@@ -52,7 +47,7 @@ exports.register = [
             });
 
             user.save((error) => {
-              if (error) return response.serverError(res, error);
+              if (error) return res.serverError(error);
 
               const userData = {
                 // eslint-disable-next-line no-underscore-dangle
@@ -62,16 +57,12 @@ exports.register = [
                 email: user.email,
               };
 
-              return response.successWithData(
-                res,
-                'Registration success',
-                userData,
-              );
+              return res.successWithData('Registration success', userData);
             });
           });
       });
     } catch (err) {
-      return response.serverError(res, err);
+      return res.serverError(res, err);
     }
   },
 ];
@@ -89,27 +80,23 @@ exports.verifyConfirm = [
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return response.validationErrorWithData(
-        res,
-        'Validation Error',
-        errors.array(),
-      );
+      return res.validationErrorWithData('Validation Error', errors.array());
     }
 
     try {
       const query = { email: req.body.email };
       UserModel.findOne(query).then((user) => {
-        if (!user) return response.unauthorized(res, 'Specified email not found.');
-        if (user.isConfirmed) return response.unauthorized(res, 'Account already confirmed.');
-        if (user.confirmOTP !== req.body.otp) return response.unauthorized(res, 'Otp does not match');
+        if (!user) return res.unauthorized('Specified email not found.');
+        if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
+        if (user.confirmOTP !== req.body.otp) return res.unauthorized('Otp does not match');
 
         UserModel.findOneAndUpdate(query, {
           isConfirmed: 1,
           confirmOTP: null,
-        }).then(() => response.success(res, 'Account confirmed success.'));
+        }).then(() => res.success('Account confirmed success.'));
       });
     } catch (err) {
-      return response.serverError(res, err);
+      return res.serverError(err);
     }
   },
 ];
@@ -126,18 +113,14 @@ exports.resendConfirmOtp = [
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return response.validationErrorWithData(
-        res,
-        'Validation Error',
-        errors.array(),
-      );
+      return res.validationErrorWithData('Validation Error', errors.array());
     }
 
     try {
       const query = { email: req.body.email };
       UserModel.findOne(query).then((user) => {
-        if (!user) return response.unauthorized(res, 'Specified email not found.');
-        if (user.isConfirmed) return response.unauthorized(res, 'Account already confirmed.');
+        if (!user) return res.unauthorized('Specified email not found.');
+        if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
 
         const otp = oneTimePassword.generate(4);
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
@@ -152,11 +135,11 @@ exports.resendConfirmOtp = [
             UserModel.findOneAndUpdate(query, {
               isConfirmed: 0,
               confirmOTP: otp,
-            }).then(() => response.success(res, 'Confirm otp sent.'));
+            }).then(() => res.success('Confirm otp sent.'));
           });
       });
     } catch (err) {
-      return response.serverError(res, err);
+      return res.serverError(err);
     }
   },
 ];

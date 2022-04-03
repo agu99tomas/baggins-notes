@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const routes = require('./routes/routes');
+const apiResponse = require('./middlewares/apiResponse');
 
 mongoose.connect('mongodb://localhost/baggins-notes');
 
@@ -12,5 +13,6 @@ app.listen(process.env.PORT || 8080);
 app.use(express.static('dist'));
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(apiResponse);
 
 app.use('/api/', routes);
