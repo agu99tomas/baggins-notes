@@ -103,13 +103,10 @@ exports.verifyConfirm = [
         if (user.isConfirmed) return response.unauthorized(res, 'Account already confirmed.');
         if (user.confirmOTP !== req.body.otp) return response.unauthorized(res, 'Otp does not match');
 
-        UserModel.findOneAndUpdate(
-          query,
-          { isConfirmed: 1, confirmOTP: null },
-          { new: true },
-        );
-
-        return response.success(res, 'Account confirmed success.');
+        UserModel.findOneAndUpdate(query, {
+          isConfirmed: 1,
+          confirmOTP: null,
+        }).then(() => response.success(res, 'Account confirmed success.'));
       });
     } catch (err) {
       return response.serverError(res, err);
