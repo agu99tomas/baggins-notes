@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
@@ -23,11 +22,6 @@ const loginValidator = require('../validators/loginValidator');
 exports.register = [
   registerValidator,
   (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.validationErrorWithData('Validation Error', errors.array());
-    }
-
     try {
       bcrypt.hash(req.body.password, 10, (_err, hash) => {
         const otp = oneTimePassword.generate(4);
@@ -80,11 +74,6 @@ exports.register = [
 exports.verifyConfirm = [
   verifyConfirmValidator,
   (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.validationErrorWithData('Validation Error', errors.array());
-    }
-
     try {
       const query = { email: req.body.email };
       UserModel.findOne(query).then((user) => {
@@ -117,11 +106,6 @@ exports.verifyConfirm = [
 exports.resendConfirmOtp = [
   resendConfirmOtpValidator,
   (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.validationErrorWithData('Validation Error', errors.array());
-    }
-
     try {
       const query = { email: req.body.email };
       UserModel.findOne(query).then((user) => {
@@ -163,11 +147,6 @@ exports.resendConfirmOtp = [
 exports.login = [
   loginValidator,
   (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.validationErrorWithData('Validation Error', errors.array());
-    }
-
     try {
       const query = { email: req.body.email };
       UserModel.findOne(query).then((user) => {
