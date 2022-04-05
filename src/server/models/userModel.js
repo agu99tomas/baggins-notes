@@ -9,9 +9,9 @@ const UserSchema = new mongoose.Schema(
     isConfirmed: { type: Boolean, required: true, default: 0 },
     confirmOTP: { type: String, required: false },
     otpTries: { type: Number, required: false, default: 0 },
-    status: { type: Boolean, required: true, default: 1 },
+    active: { type: Boolean, required: true, default: 1 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 UserSchema.virtual('fullName').get(() => `${this.firstName} ${this.lastName}`);
