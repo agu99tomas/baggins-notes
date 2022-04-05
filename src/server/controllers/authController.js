@@ -55,7 +55,8 @@ exports.register = [
 
               return res.successWithData('Registration success', userData);
             });
-          });
+          })
+          .catch(err => res.serverError(err));
       });
     } catch (err) {
       return res.serverError(res, err);
@@ -88,7 +89,9 @@ exports.verifyConfirm = [
         UserModel.findOneAndUpdate(query, {
           isConfirmed: 1,
           confirmOTP: null,
-        }).then(() => res.success('Account confirmed success.'));
+        })
+          .then(() => res.success('Account confirmed success.'))
+          .catch(err => res.serverError(err));
       });
     } catch (err) {
       return res.serverError(err);
@@ -127,7 +130,9 @@ exports.resendConfirmOtp = [
             UserModel.findOneAndUpdate(query, {
               isConfirmed: 0,
               confirmOTP: otp,
-            }).then(() => res.success('Confirm otp sent.'));
+            })
+              .then(() => res.success('Confirm otp sent.'))
+              .catch(err => res.serverError(err));
           });
       });
     } catch (err) {
