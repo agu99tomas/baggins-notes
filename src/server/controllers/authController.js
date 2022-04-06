@@ -4,10 +4,7 @@ const UserModel = require('../models/userModel');
 const oneTimePassword = require('../helpers/oneTimePassword');
 const mailer = require('../helpers/mailer');
 const { constants } = require('../helpers/constants');
-const registerValidator = require('../validators/registerValidator');
-const verifyConfirmValidator = require('../validators/verifyConfirmValidator');
-const resendConfirmOtpValidator = require('../validators/resendConfirmOtpValidator');
-const loginValidator = require('../validators/loginValidator');
+const validator = require('../validators/authControllerValidator');
 
 /**
  * User registration.
@@ -20,7 +17,7 @@ const loginValidator = require('../validators/loginValidator');
  * @returns {Object}
  */
 exports.register = [
-  registerValidator,
+  validator.register,
   (req, res) => {
     try {
       bcrypt.hash(req.body.password, 10, (_err, hash) => {
@@ -73,7 +70,7 @@ exports.register = [
  * @returns {Object}
  */
 exports.verifyConfirm = [
-  verifyConfirmValidator,
+  validator.verifyConfirm,
   (req, res) => {
     try {
       const query = { email: req.body.email };
@@ -107,7 +104,7 @@ exports.verifyConfirm = [
  * @returns {Object}
  */
 exports.resendConfirmOtp = [
-  resendConfirmOtpValidator,
+  validator.resendConfirmOtp,
   (req, res) => {
     try {
       const query = { email: req.body.email };
@@ -150,7 +147,7 @@ exports.resendConfirmOtp = [
  * @returns {Object}
  */
 exports.login = [
-  loginValidator,
+  validator.login,
   (req, res) => {
     try {
       const query = { email: req.body.email };
