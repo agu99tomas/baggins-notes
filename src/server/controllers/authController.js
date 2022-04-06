@@ -162,7 +162,7 @@ exports.login = [
             );
           }
           if (!user.active) {
-            return res.unauthorizedResponse(
+            return res.unauthorized(
               'Account is not active. Please contact admin.',
             );
           }
