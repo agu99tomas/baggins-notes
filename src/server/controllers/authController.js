@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
 const oneTimePassword = require('../helpers/oneTimePassword');
 const mailer = require('../helpers/mailer');
-const { constants } = require('../helpers/constants');
 const validator = require('../validators/authControllerValidator');
 
 /**
@@ -25,7 +24,6 @@ exports.register = [
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
           .send(
-            constants.confirmEmails.from,
             req.body.email,
             'Confirm Account',
             html,
