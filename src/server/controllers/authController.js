@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
-const oneTimePassword = require('../helpers/oneTimePassword');
+const otpGenerator = require('../helpers/otpGenerator');
 const mailer = require('../helpers/mailer');
 const validator = require('../validators/authControllerValidator');
 
@@ -20,7 +20,7 @@ exports.register = [
   (req, res) => {
     try {
       bcrypt.hash(req.body.password, 10, (_err, hash) => {
-        const otp = oneTimePassword.generate(4);
+        const otp = otpGenerator.generate(4);
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
           .send(
@@ -112,11 +112,10 @@ exports.resendConfirmOtp = [
           return res.unauthorized('Account already confirmed.');
         }
 
-        const otp = oneTimePassword.generate(4);
+        const otp = otpGenerator.generate(4);
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
           .send(
-            constants.confirmEmails.from,
             req.body.email,
             'Confirm Account',
             html,
