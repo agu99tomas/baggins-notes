@@ -3,13 +3,13 @@ const UserModel = require('../models/userModel');
 
 exports.login = [
   body('email')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Email must be specified.')
     .isEmail()
     .withMessage('Email must be a valid email address.'),
   body('password')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Password must be specified.'),
   sanitizeBody('email').escape(),
@@ -18,19 +18,19 @@ exports.login = [
 
 exports.register = [
   body('firstName')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('First name must be specified.')
     .isAlphanumeric()
     .withMessage('First name has non-alphanumeric characters.'),
   body('lastName')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Last name must be specified.')
     .isAlphanumeric()
     .withMessage('Last name has non-alphanumeric characters.'),
   body('email')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Email must be specified.')
     .isEmail()
@@ -53,7 +53,7 @@ exports.register = [
 
 exports.resendConfirmOtp = [
   body('email')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Email must be specified.')
     .isEmail()
@@ -63,12 +63,15 @@ exports.resendConfirmOtp = [
 
 exports.verifyConfirm = [
   body('email')
-    .isLength({ min: 1 })
+    .notEmpty()
     .trim()
     .withMessage('Email must be specified.')
     .isEmail()
     .withMessage('Email must be a valid email address.'),
-  body('otp').isLength({ min: 1 }).trim().withMessage('OTP must be specified.'),
+  body('otp')
+    .notEmpty()
+    .trim()
+    .withMessage('OTP must be specified.'),
   sanitizeBody('email').escape(),
   sanitizeBody('otp').escape(),
 ];
