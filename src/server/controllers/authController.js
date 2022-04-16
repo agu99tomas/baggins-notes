@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
 const otpGenerator = require('../helpers/otpGenerator');
+const encryptor = require('../helpers/encryptor');
 const mailer = require('../helpers/mailer');
 const validator = require('../validators/authControllerValidator');
 
@@ -19,7 +19,7 @@ exports.register = [
   validator.register,
   (req, res) => {
     try {
-      bcrypt.hash(req.body.password, 10, (_err, hash) => {
+      encryptor.hash(req.body.password, (_err, hash) => {
         const otp = otpGenerator.generate(4);
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
@@ -145,7 +145,7 @@ exports.login = [
       UserModel.findOne(query).then((user) => {
         if (!user) return res.unauthorized('Email or Password wrong.');
 
-        bcrypt.compare(req.body.password, user.password, (_err, equals) => {
+        encryptor.compare(req.body.password, user.password, (_err, equals) => {
           if (!equals) return res.unauthorized('Email or Password wrong.');
           if (!user.isConfirmed) return res.unauthorized('Account is not confirmed. Please confirm your account.');
           if (!user.active) return res.unauthorized('Account is not active. Please contact admin.');
