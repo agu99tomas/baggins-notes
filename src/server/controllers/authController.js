@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
 const UserModel = require('../models/userModel');
 const otpGenerator = require('../helpers/otpGenerator');
 const encryptor = require('../helpers/encryptor');
+const jwt = require('../helpers/jwt');
 const mailer = require('../helpers/mailer');
 const validator = require('../validators/authControllerValidator');
 
@@ -157,12 +157,8 @@ exports.login = [
             lastName: user.lastName,
             email: user.email,
           };
-          const payload = userData;
-          const options = {
-            expiresIn: process.env.JWT_TIMEOUT_DURATION,
-          };
-          const secret = process.env.JWT_SECRET;
-          userData.token = jwt.sign(payload, secret, options);
+
+          userData.token = jwt.sign(userData);
 
           res.successWithData('Login Success', userData);
         });
