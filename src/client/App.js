@@ -1,23 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import useToken from './hooks/useToken';
+import Notes from './pages/Notes';
+import CreateNote from './pages/CreateNote';
+import SignIn from './pages/SignIn';
 import './app.css';
-import ReactImage from './react.png';
 
-export default class App extends Component {
-  state = { username: null };
+function App() {
+  const { token, setToken } = useToken();
 
-  componentDidMount() {
-    fetch('/api/getUsername')
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
-  }
+  if (!token) return <SignIn setToken={setToken} />;
 
-  render() {
-    const { username } = this.state;
-    return (
-      <div>
-        {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        <img src={ReactImage} alt="react" />
-      </div>
-    );
-  }
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Notes />} />
+        <Route path="/createnote" element={<CreateNote />} />
+      </Routes>
+    </Router>
+  );
 }
+
+export default App;
