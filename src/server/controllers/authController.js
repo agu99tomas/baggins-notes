@@ -20,7 +20,7 @@ exports.register = [
   (req, res) => {
     try {
       encryptor.hash(req.body.password, (_err, hash) => {
-        const otp = otpGenerator.generate(4);
+        const otp = otpGenerator.generate();
         const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
         mailer
           .send(

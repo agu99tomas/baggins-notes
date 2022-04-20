@@ -1,4 +1,4 @@
-exports.generate = (length) => {
+exports.generate = (length = 4) => {
   let text = '';
   const possible = '123456789';
   for (let i = 0; i < length; i += 1) {

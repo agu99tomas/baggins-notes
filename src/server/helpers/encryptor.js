@@ -1,8 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const saltOrRounds = 10;
-
-const hash = (data, callback) => {
+const hash = (data, callback, saltOrRounds = 10) => {
   bcrypt.hash(data, saltOrRounds, callback);
 };
 
