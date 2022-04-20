@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
 const express = require('express');
 require('dotenv').config();
 const routes = require('./routes/routes');
 const middlewares = require('./middlewares/middlewares');
+const db = require('./db/db');
 
-mongoose.connect('mongodb://localhost/baggins-notes');
-
+db.connect();
 const app = express();
 
 app.listen(process.env.PORT || 8080);
