@@ -6,6 +6,6 @@ const options = {
 
 const secret = process.env.JWT_SECRET;
 
-const sign = payload => jwt.sign(payload, secret, options);
+const jwtSign = payload => jwt.sign(payload, secret, options);
 
-module.exports = { sign };
+module.exports = jwtSign;

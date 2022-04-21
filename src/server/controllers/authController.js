@@ -1,8 +1,8 @@
 const UserModel = require('../models/userModel');
-const otpGenerator = require('../helpers/otpGenerator');
+const generateOtp = require('../helpers/generateOtp');
 const encryptor = require('../helpers/encryptor');
-const jwt = require('../helpers/jwt');
-const mailer = require('../helpers/mailer');
+const jwtSign = require('../helpers/jwtSign');
+const sendMail = require('../helpers/sendMail');
 const validator = require('../validators/authControllerValidator');
 
 /**
@@ -17,37 +17,36 @@ const validator = require('../validators/authControllerValidator');
  */
 exports.register = [
   validator.register,
-  (req, res) => {
-    encryptor.hash(req.body.password, (_err, hash) => {
-      const otp = otpGenerator.generate();
+  async (req, res) => {
+    try {
+      const hash = await encryptor.hash(req.body.password);
+      const otp = generateOtp();
       const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
-      mailer
-        .send(req.body.email, 'Confirm Account', html)
-        .then(() => {
-          const user = new UserModel({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hash,
-            confirmOTP: otp,
-          });
 
-          user.save((err) => {
-            if (err) return res.serverError(err);
+      await sendMail(req.body.email, 'Confirm Account', html);
 
-            const userData = {
-              // eslint-disable-next-line no-underscore-dangle
-              id: user._id,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              email: user.email,
-            };
+      const user = new UserModel({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: hash,
+        confirmOTP: otp,
+      });
 
-            return res.successWithData('Registration success', userData);
-          });
-        })
-        .catch(err => res.serverError(err));
-    });
+      await user.save();
+
+      const userData = {
+        // eslint-disable-next-line no-underscore-dangle
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+
+      return res.successWithData('Registration success', userData);
+    } catch (err) {
+      res.serverError(err);
+    }
   },
 ];
 
@@ -61,20 +60,24 @@ exports.register = [
  */
 exports.verifyConfirm = [
   validator.verifyConfirm,
-  (req, res) => {
-    const query = { email: req.body.email };
-    UserModel.findOne(query).then((user) => {
+  async (req, res) => {
+    try {
+      const query = { email: req.body.email };
+      const user = await UserModel.findOne(query);
+
       if (!user) return res.unauthorized('Specified email not found.');
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
       if (user.confirmOTP !== req.body.otp) return res.unauthorized('Otp does not match');
 
-      UserModel.findOneAndUpdate(query, {
+      await UserModel.findOneAndUpdate(query, {
         isConfirmed: 1,
         confirmOTP: null,
-      })
-        .then(() => res.success('Account confirmed success.'))
-        .catch(err => res.serverError(err));
-    }).catch(err => res.serverError(err));
+      });
+
+      res.success('Account confirmed success.');
+    } catch (err) {
+      res.serverError(err);
+    }
   },
 ];
 
@@ -87,28 +90,28 @@ exports.verifyConfirm = [
  */
 exports.resendConfirmOtp = [
   validator.resendConfirmOtp,
-  (req, res) => {
-    const query = { email: req.body.email };
-    UserModel.findOne(query)
-      .then((user) => {
-        if (!user) return res.unauthorized('Specified email not found.');
-        if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
+  async (req, res) => {
+    try {
+      const query = { email: req.body.email };
+      const user = await UserModel.findOne(query);
 
-        const otp = otpGenerator.generate(4);
-        const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
-        mailer
-          .send(req.body.email, 'Confirm Account', html)
-          .then(() => {
-            UserModel.findOneAndUpdate(query, {
-              isConfirmed: 0,
-              confirmOTP: otp,
-            })
-              .then(() => res.success('Confirm otp sent.'))
-              .catch(err => res.serverError(err));
-          })
-          .catch(err => res.serverError(err));
-      })
-      .catch(err => res.serverError(err));
+      if (!user) return res.unauthorized('Specified email not found.');
+      if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
+
+      const otp = generateOtp();
+      const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
+
+      await sendMail(req.body.email, 'Confirm Account', html);
+
+      await UserModel.findOneAndUpdate(query, {
+        isConfirmed: 0,
+        confirmOTP: otp,
+      });
+
+      res.success('Confirm otp sent.');
+    } catch (err) {
+      res.serverError(err);
+    }
   },
 ];
 
@@ -122,28 +125,31 @@ exports.resendConfirmOtp = [
  */
 exports.login = [
   validator.login,
-  (req, res) => {
-    const query = { email: req.body.email };
-    UserModel.findOne(query).then((user) => {
+  async (req, res) => {
+    try {
+      const query = { email: req.body.email };
+      const user = await UserModel.findOne(query);
+
       if (!user) return res.unauthorized('Email or Password wrong.');
 
-      encryptor.compare(req.body.password, user.password, (_err, equals) => {
-        if (!equals) return res.unauthorized('Email or Password wrong.');
-        if (!user.isConfirmed) return res.unauthorized('Account is not confirmed. Please confirm your account.');
-        if (!user.active) return res.unauthorized('Account is not active. Please contact admin.');
+      const equals = await encryptor.compare(req.body.password, user.password);
 
-        const userData = {
-          // eslint-disable-next-line no-underscore-dangle
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        };
+      if (!equals) return res.unauthorized('Email or Password wrong.');
+      if (!user.isConfirmed) return res.unauthorized('Account is not confirmed. Please confirm your account.');
+      if (!user.active) return res.unauthorized('Account is not active. Please contact admin.');
 
-        userData.token = jwt.sign(userData);
+      const userData = {
+        // eslint-disable-next-line no-underscore-dangle
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+      userData.token = jwtSign(userData);
 
-        res.successWithData('Login Success', userData);
-      });
-    }).catch(err => res.serverError(err));
+      res.successWithData('Login Success', userData);
+    } catch (err) {
+      res.serverError(err);
+    }
   },
 ];

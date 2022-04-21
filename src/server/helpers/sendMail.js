@@ -10,4 +10,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.send = (to, subject, html) => transporter.sendMail({ to, subject, html });
+const sendMail = (to, subject, html) => transporter.sendMail({ to, subject, html });
+
+module.exports = sendMail;
