@@ -14,11 +14,9 @@ import PropTypes from 'prop-types';
 
 export default function SignIn({ setToken }) {
   const [error, setError] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState(
-    'Email or Password wrong.',
-  );
+  const [errorMessage, setErrorMessage] = React.useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const body = {
@@ -26,20 +24,20 @@ export default function SignIn({ setToken }) {
       password: data.get('password'),
     };
 
-    axios
-      .post('/api/auth/login', body)
-      .then((res) => {
-        setToken(res.data.data.token);
-      })
-      .catch((err) => {
-        setError(true);
-        const { status } = err.toJSON();
-        if (status !== 401) {
-          setErrorMessage(
-            `(status ${status}) An unexpected error has occurred`,
-          );
-        }
-      });
+    try {
+      const res = await axios.post('/api/auth/login', body);
+      setToken(res.data.data.token);
+    } catch (err) {
+      setError(true);
+      const { status } = err.toJSON();
+      if (status === 401) {
+        setErrorMessage('Email or Password wrong.');
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        setErrorMessage('An unexpected error has occurred.');
+      }
+    }
   };
 
   return (
@@ -104,7 +102,7 @@ export default function SignIn({ setToken }) {
 
       <Snackbar
         open={error}
-        autoHideDuration={2500}
+        autoHideDuration={4000}
         message={errorMessage}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         onClose={() => setError(false)}
