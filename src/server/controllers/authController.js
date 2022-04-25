@@ -138,7 +138,7 @@ exports.login = [
       if (!user.active) return res.unauthorized('Account is not active. Please contact admin.');
 
       const userData = {
-        id: user._id,
+        _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
