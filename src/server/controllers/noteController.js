@@ -12,8 +12,7 @@ exports.noteList = [
   async (req, res) => {
     try {
       const query = { user: req.auth.id };
-      const populate = { path: 'user', select: 'firstName lastName' };
-      const notes = await Note.find(query).populate(populate);
+      const notes = await Note.find(query);
       return res.successWithData('Operation success', notes);
     } catch (err) {
       return res.serverError(err.message);
@@ -44,14 +43,25 @@ exports.addNote = [
 
       await note.save();
 
-      const noteData = {
-        id: note._id,
-        title: note.title,
-        description: note.description,
-        category: note.category,
-      };
+      return res.successWithData('Note added successfully', note);
+    } catch (err) {
+      return res.serverError(err.message);
+    }
+  },
+];
 
-      return res.successWithData('Operation success', noteData);
+/**
+ * Remove List.
+ *
+ * @returns {Object}
+ */
+exports.deleteNote = [
+  auth,
+  async (req, res) => {
+    try {
+      const deletedNote = await Note.findByIdAndDelete(req.params.noteId);
+      if (deletedNote === null) return res.notFound('The note does not exist');
+      return res.successWithData('Note deleted successfully', deletedNote);
     } catch (err) {
       return res.serverError(err.message);
     }
