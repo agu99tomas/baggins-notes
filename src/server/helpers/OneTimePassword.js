@@ -1,4 +1,4 @@
-const generateOtp = () => {
+const OneTimePassword = () => {
   const length = 4;
   let text = '';
   const possible = '123456789';
@@ -9,4 +9,4 @@ const generateOtp = () => {
   return Number(text);
 };
 
-module.exports = generateOtp;
+module.exports = OneTimePassword;

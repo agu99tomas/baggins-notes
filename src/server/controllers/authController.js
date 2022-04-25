@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const generateOtp = require('../helpers/generateOtp');
+const OneTimePassword = require('../helpers/OneTimePassword');
 const encryptor = require('../helpers/encryptor');
 const jwtSign = require('../helpers/jwtSign');
 const sendMail = require('../helpers/sendMail');
@@ -20,7 +20,7 @@ exports.register = [
   async (req, res) => {
     try {
       const hash = await encryptor.hash(req.body.password);
-      const otp = generateOtp();
+      const otp = OneTimePassword();
       const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
 
       await sendMail(req.body.email, 'Confirm Account', html);
@@ -97,7 +97,7 @@ exports.resendConfirmOtp = [
       if (!user) return res.unauthorized('Specified email not found.');
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
 
-      const otp = generateOtp();
+      const otp = OneTimePassword();
       const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
 
       await sendMail(req.body.email, 'Confirm Account', html);
