@@ -3,7 +3,7 @@ const Note = require('../models/noteModel');
 const validator = require('../validators/noteControllerValidator');
 
 /**
- * Note List.
+ * Note list.
  *
  * @returns {Object}
  */
@@ -50,7 +50,7 @@ exports.addNote = [
 ];
 
 /**
- * Remove List.
+ * Remove note.
  *
  * @returns {Object}
  */
