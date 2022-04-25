@@ -34,9 +34,7 @@ exports.addNote = [
   async (req, res) => {
     try {
       const note = new Note({
-        title: req.body.title,
-        description: req.body.description,
-        category: req.body.category,
+        ...req.body,
         user: req.auth.id,
       });
 
