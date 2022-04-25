@@ -11,8 +11,7 @@ exports.noteList = [
   auth,
   async (req, res) => {
     try {
-      const query = { user: req.auth.id };
-      const notes = await Note.find(query);
+      const notes = await Note.find({ user: req.auth.id });
       return res.successWithData('Operation success', notes);
     } catch (err) {
       return res.serverError(err.message);
@@ -61,7 +60,7 @@ exports.deleteNote = [
     try {
       const deletedNote = await Note.findByIdAndDelete(req.params.noteId);
       if (deletedNote === null) return res.notFound('The note does not exist');
-      return res.successWithData('Note deleted successfully', deletedNote);
+      return res.success('Note deleted successfully');
     } catch (err) {
       return res.serverError(err.message);
     }

@@ -126,8 +126,7 @@ exports.login = [
   validator.login,
   async (req, res) => {
     try {
-      const query = { email: req.body.email };
-      const user = await User.findOne(query);
+      const user = await User.findOne({ email: req.body.email });
 
       if (!user) return res.unauthorized('Email or Password wrong.');
 
