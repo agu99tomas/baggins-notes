@@ -1,4 +1,4 @@
-const UserModel = require('../models/userModel');
+const User = require('../models/userModel');
 const generateOtp = require('../helpers/generateOtp');
 const encryptor = require('../helpers/encryptor');
 const jwtSign = require('../helpers/jwtSign');
@@ -25,7 +25,7 @@ exports.register = [
 
       await sendMail(req.body.email, 'Confirm Account', html);
 
-      const user = new UserModel({
+      const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -36,7 +36,6 @@ exports.register = [
       await user.save();
 
       const userData = {
-        // eslint-disable-next-line no-underscore-dangle
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -45,7 +44,7 @@ exports.register = [
 
       return res.successWithData('Registration success', userData);
     } catch (err) {
-      res.serverError(err);
+      return res.serverError(err.message);
     }
   },
 ];
@@ -63,20 +62,20 @@ exports.verifyConfirm = [
   async (req, res) => {
     try {
       const query = { email: req.body.email };
-      const user = await UserModel.findOne(query);
+      const user = await User.findOne(query);
 
       if (!user) return res.unauthorized('Specified email not found.');
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
       if (user.confirmOTP !== req.body.otp) return res.unauthorized('Otp does not match');
 
-      await UserModel.findOneAndUpdate(query, {
+      await User.findOneAndUpdate(query, {
         isConfirmed: 1,
         confirmOTP: null,
       });
 
       res.success('Account confirmed success.');
     } catch (err) {
-      res.serverError(err);
+      return res.serverError(err.message);
     }
   },
 ];
@@ -93,7 +92,7 @@ exports.resendConfirmOtp = [
   async (req, res) => {
     try {
       const query = { email: req.body.email };
-      const user = await UserModel.findOne(query);
+      const user = await User.findOne(query);
 
       if (!user) return res.unauthorized('Specified email not found.');
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
@@ -103,14 +102,14 @@ exports.resendConfirmOtp = [
 
       await sendMail(req.body.email, 'Confirm Account', html);
 
-      await UserModel.findOneAndUpdate(query, {
+      await User.findOneAndUpdate(query, {
         isConfirmed: 0,
         confirmOTP: otp,
       });
 
       res.success('Confirm otp sent.');
     } catch (err) {
-      res.serverError(err);
+      return res.serverError(err.message);
     }
   },
 ];
@@ -128,7 +127,7 @@ exports.login = [
   async (req, res) => {
     try {
       const query = { email: req.body.email };
-      const user = await UserModel.findOne(query);
+      const user = await User.findOne(query);
 
       if (!user) return res.unauthorized('Email or Password wrong.');
 
@@ -139,7 +138,6 @@ exports.login = [
       if (!user.active) return res.unauthorized('Account is not active. Please contact admin.');
 
       const userData = {
-        // eslint-disable-next-line no-underscore-dangle
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -149,7 +147,7 @@ exports.login = [
 
       res.successWithData('Login Success', userData);
     } catch (err) {
-      res.serverError(err);
+      return res.serverError(err.message);
     }
   },
 ];

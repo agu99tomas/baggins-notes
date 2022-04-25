@@ -8,6 +8,7 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "linebreak-style": ["error", "windows"],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-underscore-dangle": "off"
   }
 }
