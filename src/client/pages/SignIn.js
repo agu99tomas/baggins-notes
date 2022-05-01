@@ -12,30 +12,32 @@ import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import PropTypes from 'prop-types';
 
-export default function SignIn({ setToken }) {
+export default function SignIn({ setUserData }) {
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const body = {
-      email: data.get('email'),
-      password: data.get('password'),
+      email: formData.get('email'),
+      password: formData.get('password'),
     };
 
     try {
       const res = await axios.post('/api/auth/login', body);
-      setToken(res.data.data.token);
+      const { data } = res.data;
+      const initials = data.firstName.charAt(0) + data.lastName.charAt(0);
+      const userData = { ...data, initials };
+      setUserData(userData);
     } catch (err) {
       setError(true);
       const { status } = err.toJSON();
       if (status === 401) {
         setErrorMessage('Email or Password wrong.');
       } else {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        setErrorMessage('An unexpected error has occurred.');
+        // eslint-disable-next-line no-alert
+        alert('ERROR!');
       }
     }
   };
@@ -112,5 +114,5 @@ export default function SignIn({ setToken }) {
 }
 
 SignIn.propTypes = {
-  setToken: PropTypes.func.isRequired,
+  setUserData: PropTypes.func.isRequired,
 };

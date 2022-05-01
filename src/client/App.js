@@ -1,41 +1,27 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
-import useToken from './hooks/useToken';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './config/theme';
+import useUserData from './hooks/useUserData';
 import Notes from './pages/Notes';
-import CreateNote from './pages/CreateNote';
+import CreateNote from './pages/Create';
 import SignIn from './pages/SignIn';
 import './app.css';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#F7D4BC',
-    },
-    secondary: purple,
-  },
-  typography: {
-    fontFamily: 'Quicksand',
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700,
-  },
-});
+import Layout from './components/Layout';
 
 function App() {
-  const { token, setToken } = useToken();
-
-  if (!token) return <SignIn setToken={setToken} />;
+  const { userData, setUserData } = useUserData();
+  if (!userData) return <SignIn setUserData={setUserData} />;
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Routes>
-          <Route path="/" element={<Notes />} />
-          <Route path="/createnote" element={<CreateNote />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Notes />} />
+            <Route path="/create" element={<CreateNote />} />
+          </Routes>
+        </Layout>
       </Router>
     </ThemeProvider>
   );
