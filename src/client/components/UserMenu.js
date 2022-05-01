@@ -1,8 +1,7 @@
 import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Avatar from '@mui/material/Avatar';
+import {
+  Menu, MenuItem, Avatar, IconButton,
+} from '@mui/material/';
 import { deepPurple } from '@mui/material/colors';
 import ls from 'local-storage';
 

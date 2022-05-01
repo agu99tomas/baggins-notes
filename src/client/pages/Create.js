@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import {
+  Typography,
+  Button,
+  Container,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+  FormControl,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
+import axios from 'axios';
 import config from '../config/axiosConfig';
 
 export default function CreateNote() {
@@ -39,7 +41,7 @@ export default function CreateNote() {
       navigate('/');
     } catch (err) {
       // eslint-disable-next-line no-alert
-      alert('ERROR!');
+      alert('ERROR');
     }
   };
 

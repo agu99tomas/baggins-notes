@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container, Grid } from '@mui/material';
+import axios from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import NoteCard from '../components/NoteCard';
 
@@ -15,7 +15,7 @@ export default function Notes() {
         setNotes(response.data.data);
       } catch (err) {
         // eslint-disable-next-line no-alert
-        alert('ERROR!');
+        alert('ERROR');
       }
     }
     fetchData();
