@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container } from '@mui/material';
+import Masonry from 'react-masonry-css';
 import axios from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import NoteCard from '../components/NoteCard';
@@ -21,15 +22,26 @@ export default function Notes() {
     fetchData();
   }, [notes]);
 
+  const breakpoints = {
+    default: 3,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
+
   return (
     <Container>
-      <Grid container spacing={3}>
+      <Masonry
+        breakpointCols={breakpoints}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
         {notes.map(note => (
-          <Grid item key={note._id} xs={12} sm={6} md={5} lg={4}>
+          <div item key={note._id}>
             <NoteCard note={note} />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </Masonry>
     </Container>
   );
 }
