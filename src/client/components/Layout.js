@@ -11,7 +11,7 @@ export default function Layout({ children }) {
       <AppBar drawerWidth={drawerWidth} />
       <Navbar drawerWidth={drawerWidth} />
 
-      <div style={{ background: '#f9f9f9', width: '100%', padding: '5rem 2rem' }}>
+      <div style={{ width: '100%', padding: '5rem 2rem' }}>
         {children}
       </div>
     </div>
