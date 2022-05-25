@@ -141,6 +141,7 @@ exports.login = [
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        initials: user.firstName.charAt(0) + user.lastName.charAt(0),
       };
       userData.token = jwtSign(userData);
 
