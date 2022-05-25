@@ -27,9 +27,7 @@ export default function SignIn({ setUserData }) {
     try {
       const res = await axios.post('/api/auth/login', body);
       const { data } = res.data;
-      const initials = data.firstName.charAt(0) + data.lastName.charAt(0);
-      const userData = { ...data, initials };
-      setUserData(userData);
+      setUserData(data);
     } catch (err) {
       setError(true);
       const { status } = err.toJSON();
