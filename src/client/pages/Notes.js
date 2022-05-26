@@ -8,12 +8,11 @@ import Layout from '../components/Layout';
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
-  const config = axiosConfig();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('/api/notes', config);
+        const response = await axios.get('/api/notes', axiosConfig());
         setNotes(response.data.data);
       } catch (err) {
         // eslint-disable-next-line no-alert

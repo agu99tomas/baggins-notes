@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import config from '../config/axiosConfig';
+import axiosConfig from '../config/axiosConfig';
 import Layout from '../components/Layout';
 
 export default function CreateNote() {
@@ -49,7 +49,7 @@ export default function CreateNote() {
     };
 
     try {
-      await axios.post('/api/notes', body, config());
+      await axios.post('/api/notes', body, axiosConfig());
       navigate('/notes');
     } catch (err) {
       // eslint-disable-next-line no-alert
