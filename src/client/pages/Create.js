@@ -14,6 +14,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../config/axiosConfig';
+import Layout from '../components/Layout';
 
 export default function CreateNote() {
   const navigate = useNavigate();
@@ -22,6 +23,17 @@ export default function CreateNote() {
   const [titleError, setTitleError] = useState(false);
   const [descriptionError, setdescriptionError] = useState(false);
   const [category, setCategory] = useState('Bree');
+
+  const categories = [
+    'Bree',
+    'The Shire',
+    'Rivendell',
+    'The Misty Mountains',
+    "Beorn's Hall",
+    'Mirkwood',
+    'Esgaroth',
+    'Erebor',
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +50,7 @@ export default function CreateNote() {
 
     try {
       await axios.post('/api/notes', body, config());
-      navigate('/');
+      navigate('/notes');
     } catch (err) {
       // eslint-disable-next-line no-alert
       alert('ERROR');
@@ -46,98 +58,65 @@ export default function CreateNote() {
   };
 
   return (
-    <Container>
-      <Typography
-        variant="h6"
-        component="h2"
-        color="textSecondary"
-        gutterBottom
-      >
-        Create a New Note
-      </Typography>
-
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <TextField
-          onChange={e => setTitle(e.target.value)}
-          error={titleError}
-          label="Title"
-          color="secondary"
-          variant="outlined"
-          fullWidth
-          required
-          sx={{ my: 3, display: 'block' }}
-        />
-        <TextField
-          onChange={e => setdescription(e.target.value)}
-          error={descriptionError}
-          label="Description"
-          color="secondary"
-          variant="outlined"
-          fullWidth
-          required
-          multiline
-          rows={4}
-          sx={{ my: 3, display: 'block' }}
-        />
-
-        <FormControl sx={{ my: 3, display: 'block' }}>
-          <FormLabel>Category</FormLabel>
-          <RadioGroup
-            onChange={e => setCategory(e.target.value)}
-            value={category}
-          >
-            <FormControlLabel
-              value="Bree"
-              control={<Radio color="secondary" />}
-              label="Bree"
-            />
-            <FormControlLabel
-              value="The Shire"
-              control={<Radio color="secondary" />}
-              label="The Shire"
-            />
-            <FormControlLabel
-              value="Rivendell"
-              control={<Radio color="secondary" />}
-              label="Rivendell"
-            />
-            <FormControlLabel
-              value="The Misty Mountains"
-              control={<Radio color="secondary" />}
-              label="The Misty Mountains"
-            />
-            <FormControlLabel
-              value="Beorn's Hall"
-              control={<Radio color="secondary" />}
-              label="Beorn's Hall"
-            />
-            <FormControlLabel
-              value="Mirkwood"
-              control={<Radio color="secondary" />}
-              label="Mirkwood"
-            />
-            <FormControlLabel
-              value="Esgaroth"
-              control={<Radio color="secondary" />}
-              label="Esgaroth"
-            />
-            <FormControlLabel
-              value="Erebor"
-              control={<Radio color="secondary" />}
-              label="Erebor"
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <Button
-          type="submit"
-          color="secondary"
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
+    <Layout>
+      <Container>
+        <Typography
+          variant="h6"
+          component="h2"
+          color="textSecondary"
+          gutterBottom
         >
-          Submit
-        </Button>
-      </form>
-    </Container>
+          Create a New Note
+        </Typography>
+
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <TextField
+            onChange={e => setTitle(e.target.value)}
+            error={titleError}
+            label="Title"
+            variant="outlined"
+            fullWidth
+            required
+            sx={{ my: 3, display: 'block' }}
+          />
+          <TextField
+            onChange={e => setdescription(e.target.value)}
+            error={descriptionError}
+            label="Description"
+            variant="outlined"
+            fullWidth
+            required
+            multiline
+            rows={4}
+            sx={{ my: 3, display: 'block' }}
+          />
+
+          <FormControl sx={{ my: 3, display: 'block' }}>
+            <FormLabel>Category</FormLabel>
+            <RadioGroup
+              onChange={e => setCategory(e.target.value)}
+              value={category}
+            >
+              {categories.map(categoryLabel => (
+                <FormControlLabel
+                  key={categoryLabel}
+                  value={categoryLabel}
+                  control={<Radio />}
+                  label={categoryLabel}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+
+          <Button
+            type="submit"
+            variant="contained"
+            endIcon={<KeyboardArrowRightIcon />}
+          >
+            Submit
+          </Button>
+        </form>
+      </Container>
+    </Layout>
   );
 }

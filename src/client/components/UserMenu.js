@@ -2,11 +2,12 @@ import React from 'react';
 import {
   Menu, MenuItem, Avatar, IconButton,
 } from '@mui/material/';
-import { deepPurple } from '@mui/material/colors';
 import ls from 'local-storage';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserMenu() {
-  const userInitials = ls('user').initials;
+  const navigate = useNavigate();
+  const userInitials = ls('userData').initials;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const openMenu = (event) => {
@@ -19,7 +20,8 @@ export default function UserMenu() {
 
   const signOut = () => {
     closeMenu();
-    ls.remove('user');
+    ls.remove('userData');
+    navigate('/');
   };
 
   return (
@@ -32,7 +34,7 @@ export default function UserMenu() {
         onClick={openMenu}
         color="inherit"
       >
-        <Avatar sx={{ bgcolor: deepPurple[500] }}>{userInitials}</Avatar>
+        <Avatar>{userInitials}</Avatar>
       </IconButton>
       <Menu
         id="menu-appbar"

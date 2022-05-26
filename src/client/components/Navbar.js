@@ -18,12 +18,12 @@ export default function Navbar({ drawerWidth }) {
   const menuItems = [
     {
       text: 'My Notes',
-      icon: <SubjectOutlined color="secondary" />,
-      path: '/',
+      icon: <SubjectOutlined />,
+      path: '/notes',
     },
     {
       text: 'Create Note',
-      icon: <AddCircleOutlineOutlined color="secondary" />,
+      icon: <AddCircleOutlineOutlined />,
       path: '/create',
     },
   ];

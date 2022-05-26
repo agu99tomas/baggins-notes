@@ -4,6 +4,7 @@ import Masonry from 'react-masonry-css';
 import axios from 'axios';
 import axiosConfig from '../config/axiosConfig';
 import NoteCard from '../components/NoteCard';
+import Layout from '../components/Layout';
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
@@ -30,18 +31,20 @@ export default function Notes() {
   };
 
   return (
-    <Container>
-      <Masonry
-        breakpointCols={breakpoints}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
-        {notes.map(note => (
-          <div item key={note._id}>
-            <NoteCard note={note} />
-          </div>
-        ))}
-      </Masonry>
-    </Container>
+    <Layout>
+      <Container>
+        <Masonry
+          breakpointCols={breakpoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {notes.map(note => (
+            <div key={note._id}>
+              <NoteCard note={note} />
+            </div>
+          ))}
+        </Masonry>
+      </Container>
+    </Layout>
   );
 }

@@ -10,9 +10,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
-import PropTypes from 'prop-types';
+import ls from 'local-storage';
+import { useNavigate } from 'react-router-dom';
 
-export default function SignIn({ setUserData }) {
+export default function SignIn() {
+  const navigate = useNavigate();
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
 
@@ -27,16 +29,12 @@ export default function SignIn({ setUserData }) {
     try {
       const res = await axios.post('/api/auth/login', body);
       const { data } = res.data;
-      setUserData(data);
+      ls('userData', data);
+      navigate('notes');
     } catch (err) {
       setError(true);
       const { status } = err.toJSON();
-      if (status === 401) {
-        setErrorMessage('Email or Password wrong.');
-      } else {
-        // eslint-disable-next-line no-alert
-        alert('ERROR!');
-      }
+      if (status === 401) setErrorMessage('Email or Password wrong.');
     }
   };
 
@@ -110,7 +108,3 @@ export default function SignIn({ setUserData }) {
     </Container>
   );
 }
-
-SignIn.propTypes = {
-  setUserData: PropTypes.func.isRequired,
-};
