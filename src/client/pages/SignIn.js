@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
@@ -9,14 +10,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
-import Snackbar from '@mui/material/Snackbar';
 import ls from 'local-storage';
 import { useNavigate } from 'react-router-dom';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignIn() {
   const navigate = useNavigate();
   const [error, setError] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,14 +28,16 @@ export default function SignIn() {
     };
 
     try {
+      setLoading(true);
       const res = await axios.post('/api/auth/login', body);
       const { data } = res.data;
       ls('userData', data);
       navigate('notes');
     } catch (err) {
-      setError(true);
       const { status } = err.toJSON();
-      if (status === 401) setErrorMessage('Email or Password wrong.');
+      if (status === 401) setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +57,12 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate={false}
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin="normal"
             required
@@ -64,6 +72,9 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            error={error}
+            helperText={error ? 'Invalid email.' : ''}
+            onChange={() => setError(false)}
           />
           <TextField
             margin="normal"
@@ -74,37 +85,47 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            error={error}
+            helperText={error ? 'Invalid password.' : ''}
+            onChange={() => setError(false)}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
+
+          {loading ? (
+            <LoadingButton
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              loading
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+            >
+              Logging in...
+            </LoadingButton>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+          )}
+
           <Grid container>
             <Grid item xs>
-              <Link href="passwordrecovery" variant="body2">
+              <Link href="/" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="signup" variant="body2">
+              <Link href="sign-up" variant="body2">
                 Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
-
-      <Snackbar
-        open={error}
-        autoHideDuration={4000}
-        message={errorMessage}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        onClose={() => setError(false)}
-      />
     </Container>
   );
 }
