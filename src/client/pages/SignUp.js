@@ -33,13 +33,14 @@ export default function SignUp() {
     try {
       setLoading(true);
       await axios.post('/api/auth/register', body);
-      setLoading(false);
     } catch (err) {
       if (err.response.status === 400) {
         const { data } = err.response.data;
         const errorMsg = data.find(field => field.param === 'email')?.msg;
         setEmailError(errorMsg || '');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
