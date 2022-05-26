@@ -1,10 +1,10 @@
 const express = require('express');
-const responseMiddleware = require('../middlewares/responseMiddleware');
-const validationMiddleware = require('../middlewares/validationMiddleware');
+const response = require('./response');
+const validation = require('./validation');
 
 const app = express();
 
-app.use(responseMiddleware);
-app.use(validationMiddleware);
+app.use(response);
+app.use(validation);
 
 module.exports = app;
