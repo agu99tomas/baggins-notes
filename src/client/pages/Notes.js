@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/material';
 import Masonry from 'react-masonry-css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,19 +32,17 @@ export default function Notes() {
 
   return (
     <Layout>
-      <Container>
-        <Masonry
-          breakpointCols={breakpoints}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        >
-          {notes.map(note => (
-            <div key={note._id}>
-              <NoteCard note={note} />
-            </div>
-          ))}
-        </Masonry>
-      </Container>
+      <Masonry
+        breakpointCols={breakpoints}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        {notes.map(note => (
+          <div key={note._id}>
+            <NoteCard note={note} />
+          </div>
+        ))}
+      </Masonry>
     </Layout>
   );
 }

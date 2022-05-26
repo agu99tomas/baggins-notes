@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {
   Typography,
@@ -10,7 +10,10 @@ import {
   Radio,
   FormLabel,
   FormControl,
+  Box,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import axiosConfig from '../config/axiosConfig';
@@ -18,11 +21,7 @@ import Layout from '../components/Layout';
 
 export default function CreateNote() {
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [description, setdescription] = useState('');
-  const [titleError, setTitleError] = useState(false);
-  const [descriptionError, setdescriptionError] = useState(false);
-  const [category, setCategory] = useState('Bree');
+  const [loading, setLoading] = React.useState(false);
 
   const categories = [
     'Bree',
@@ -37,23 +36,23 @@ export default function CreateNote() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setTitleError(title === '');
-    setdescriptionError(description === '');
-
-    if (!title && !description) return;
+    const formData = new FormData(e.currentTarget);
 
     const body = {
-      title,
-      description,
-      category,
+      title: formData.get('title'),
+      description: formData.get('description'),
+      category: formData.get('category'),
     };
 
     try {
+      setLoading(true);
       await axios.post('/api/notes', body, axiosConfig());
       navigate('/notes');
     } catch (err) {
       const { status } = err.toJSON();
       if (status === 401) navigate('/');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,21 +68,23 @@ export default function CreateNote() {
           Create a New Note
         </Typography>
 
-        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <Box
+          component="form"
+          noValidate={false}
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
           <TextField
-            onChange={e => setTitle(e.target.value)}
-            error={titleError}
             label="Title"
-            variant="outlined"
+            name="title"
             fullWidth
             required
             sx={{ my: 3, display: 'block' }}
           />
+
           <TextField
-            onChange={e => setdescription(e.target.value)}
-            error={descriptionError}
             label="Description"
-            variant="outlined"
+            name="description"
             fullWidth
             required
             multiline
@@ -93,29 +94,37 @@ export default function CreateNote() {
 
           <FormControl sx={{ my: 3, display: 'block' }}>
             <FormLabel>Category</FormLabel>
-            <RadioGroup
-              onChange={e => setCategory(e.target.value)}
-              value={category}
-            >
-              {categories.map(categoryLabel => (
+            <RadioGroup name="category" defaultValue={categories[0]}>
+              {categories.map(category => (
                 <FormControlLabel
-                  key={categoryLabel}
-                  value={categoryLabel}
+                  key={category}
+                  value={category}
                   control={<Radio />}
-                  label={categoryLabel}
+                  label={category}
                 />
               ))}
             </RadioGroup>
           </FormControl>
 
-          <Button
-            type="submit"
-            variant="contained"
-            endIcon={<KeyboardArrowRightIcon />}
-          >
-            Submit
-          </Button>
-        </form>
+          {loading ? (
+            <LoadingButton
+              variant="contained"
+              loading
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+            >
+              Loading...
+            </LoadingButton>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              endIcon={<KeyboardArrowRightIcon />}
+            >
+              Submit
+            </Button>
+          )}
+        </Box>
       </Container>
     </Layout>
   );

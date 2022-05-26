@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import AppBar from './AppBar';
 import Navbar from './Navbar';
@@ -12,7 +13,7 @@ export default function Layout({ children }) {
       <Navbar drawerWidth={drawerWidth} />
 
       <div style={{ width: '100%', padding: '5rem 2rem' }}>
-        {children}
+        <Container>{children}</Container>
       </div>
     </div>
   );
