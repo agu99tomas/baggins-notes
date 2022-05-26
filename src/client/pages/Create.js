@@ -49,8 +49,7 @@ export default function CreateNote() {
       await axios.post('/api/notes', body, axiosConfig());
       navigate('/notes');
     } catch (err) {
-      const { status } = err.toJSON();
-      if (status === 401) navigate('/');
+      if (err.response.status === 401) navigate('/');
     } finally {
       setLoading(false);
     }

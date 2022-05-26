@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -16,8 +16,8 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,8 +34,7 @@ export default function SignIn() {
       ls('userData', data);
       navigate('notes');
     } catch (err) {
-      const { status } = err.toJSON();
-      if (status === 401) setError(true);
+      setError(err.response.status === 401);
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -8,17 +8,39 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import LoadingButton from '@mui/lab/LoadingButton';
+import axios from 'axios';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignUp() {
-  const handleSubmit = (e) => {
+  const [emailError, setEmailError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const removeAlphaNumeric = (e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, '');
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const body = {
-      email: data.get('email'),
-      password: data.get('password'),
-      firstname: data.get('firstName'),
-      lastname: data.get('lastName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
     };
+
+    try {
+      setLoading(true);
+      await axios.post('/api/auth/register', body);
+      setLoading(false);
+    } catch (err) {
+      if (err.response.status === 400) {
+        const { data } = err.response.data;
+        const errorMsg = data.find(field => field.param === 'email')?.msg;
+        setEmailError(errorMsg || '');
+      }
+    }
   };
 
   return (
@@ -53,6 +75,7 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={removeAlphaNumeric}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -63,6 +86,7 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                onChange={removeAlphaNumeric}
               />
             </Grid>
             <Grid item xs={12}>
@@ -73,15 +97,17 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={() => setEmailError('')}
+                error={emailError.length > 0}
+                helperText={emailError}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 required
                 inputProps={{
-                  minlength: 6,
+                  minLength: 6,
                 }}
-                min
                 fullWidth
                 name="password"
                 label="Password"
@@ -91,14 +117,29 @@ export default function SignUp() {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign Up
-          </Button>
+
+          {loading ? (
+            <LoadingButton
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              loading
+              loadingPosition="start"
+              startIcon={<SaveIcon />}
+            >
+              Loading...
+            </LoadingButton>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+          )}
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/" variant="body2">

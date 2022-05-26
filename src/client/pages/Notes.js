@@ -16,8 +16,7 @@ export default function Notes() {
         const response = await axios.get('/api/notes', axiosConfig());
         setNotes(response.data.data);
       } catch (err) {
-        const { status } = err.toJSON();
-        if (status === 401) navigate('/');
+        if (err.response.status === 401) navigate('/');
       }
     }
     fetchData();
