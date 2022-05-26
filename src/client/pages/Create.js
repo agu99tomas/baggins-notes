@@ -54,8 +54,6 @@ export default function CreateNote() {
     } catch (err) {
       const { status } = err.toJSON();
       if (status === 401) navigate('/');
-      // eslint-disable-next-line no-alert
-      else alert('ERROR');
     }
   };
 

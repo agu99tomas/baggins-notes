@@ -19,8 +19,6 @@ export default function Notes() {
       } catch (err) {
         const { status } = err.toJSON();
         if (status === 401) navigate('/');
-        // eslint-disable-next-line no-alert
-        else alert('ERROR');
       }
     }
     fetchData();
