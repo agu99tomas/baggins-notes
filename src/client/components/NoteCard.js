@@ -16,8 +16,8 @@ export default function NoteCard({ note }) {
     try {
       await axios.delete(`/api/notes/${id}`, config());
     } catch (err) {
-      // eslint-disable-next-line no-alert
-      alert('ERROR');
+      // eslint-disable-next-line no-console
+      console.err(err);
     }
   };
 
