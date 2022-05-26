@@ -1,4 +1,4 @@
-const apiResponse = (_req, res, next) => {
+const response = (_req, res, next) => {
   res.success = (message) => {
     const data = {
       message,
@@ -46,4 +46,4 @@ const apiResponse = (_req, res, next) => {
   next();
 };
 
-module.exports = apiResponse;
+module.exports = response;
