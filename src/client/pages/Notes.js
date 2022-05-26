@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 import Masonry from 'react-masonry-css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import axiosConfig from '../config/axiosConfig';
 import NoteCard from '../components/NoteCard';
 import Layout from '../components/Layout';
 
 export default function Notes() {
+  const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -15,8 +17,10 @@ export default function Notes() {
         const response = await axios.get('/api/notes', axiosConfig());
         setNotes(response.data.data);
       } catch (err) {
+        const { status } = err.toJSON();
+        if (status === 401) navigate('/');
         // eslint-disable-next-line no-alert
-        alert('ERROR');
+        else alert('ERROR');
       }
     }
     fetchData();
@@ -37,7 +41,7 @@ export default function Notes() {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {notes.map(note => (
+          {notes.map((note) => (
             <div key={note._id}>
               <NoteCard note={note} />
             </div>

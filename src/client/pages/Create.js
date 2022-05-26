@@ -52,8 +52,10 @@ export default function CreateNote() {
       await axios.post('/api/notes', body, axiosConfig());
       navigate('/notes');
     } catch (err) {
+      const { status } = err.toJSON();
+      if (status === 401) navigate('/');
       // eslint-disable-next-line no-alert
-      alert('ERROR');
+      else alert('ERROR');
     }
   };
 
