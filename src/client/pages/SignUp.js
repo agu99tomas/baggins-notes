@@ -18,7 +18,7 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const removeAlphaNumeric = (e) => {
+  const alphaNumeric = (e) => {
     e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, '');
   };
 
@@ -79,7 +79,7 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
-                onChange={removeAlphaNumeric}
+                onChange={alphaNumeric}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -90,7 +90,7 @@ export default function SignUp() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
-                onChange={removeAlphaNumeric}
+                onChange={alphaNumeric}
               />
             </Grid>
             <Grid item xs={12}>
