@@ -10,15 +10,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function ResendEmail() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const { email } = location.state;
-  if (!email) navigate('/');
+  const email = location.state?.email;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +72,7 @@ export default function ResendEmail() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               endIcon={<SendIcon />}
+              disabled={!email}
             >
               Resend email
             </Button>

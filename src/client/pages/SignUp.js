@@ -102,7 +102,7 @@ export default function SignUp() {
                 name="email"
                 autoComplete="email"
                 onChange={() => setEmailError('')}
-                error={emailError.length > 0}
+                error={!!emailError}
                 helperText={emailError}
               />
             </Grid>
