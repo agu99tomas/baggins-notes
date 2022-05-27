@@ -10,9 +10,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +35,7 @@ export default function SignUp() {
     try {
       setLoading(true);
       await axios.post('/api/auth/register', body);
+      navigate('/resendEmail', { state: { email: body.email } });
     } catch (err) {
       if (err.response.status === 400) {
         const { data } = err.response.data;
