@@ -11,7 +11,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
 import ls from 'local-storage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignIn() {
@@ -113,12 +113,12 @@ export default function SignIn() {
 
           <Grid container>
             <Grid item xs>
-              <Link href="/" variant="body2">
+              <Link component={RouterLink} to="/" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="signUp" variant="body2">
+              <Link component={RouterLink} to="signUp" variant="body2">
                 Don&apos;t have an account? Sign Up
               </Link>
             </Grid>

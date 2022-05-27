@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function SignUp() {
@@ -146,7 +146,7 @@ export default function SignUp() {
 
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link component={RouterLink} to="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function ResendEmail() {
@@ -80,7 +80,7 @@ export default function ResendEmail() {
 
           <Grid container justifyContent="center">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link component={RouterLink} to="/" variant="body2">
                 Sign in
               </Link>
             </Grid>
