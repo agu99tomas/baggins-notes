@@ -3,7 +3,8 @@ const OneTimePassword = require('../helpers/OneTimePassword');
 const encryptor = require('../helpers/encryptor');
 const jwtSign = require('../helpers/jwtSign');
 const sendMail = require('../helpers/sendMail');
-const validator = require('../validators/authControllerValidator');
+const validator = require('../validators/authValidator');
+const validate = require('../validators/validate');
 
 /**
  * User registration.
@@ -18,6 +19,7 @@ const validator = require('../validators/authControllerValidator');
  */
 exports.register = [
   validator.register,
+  validate,
   async (req, res) => {
     try {
       const hash = await encryptor.hash(req.body.password);
@@ -60,6 +62,7 @@ exports.register = [
  */
 exports.verifyConfirm = [
   validator.verifyConfirm,
+  validate,
   async (req, res) => {
     try {
       const query = { email: req.body.email };
@@ -91,6 +94,7 @@ exports.verifyConfirm = [
  */
 exports.resendConfirmOtp = [
   validator.resendConfirmOtp,
+  validate,
   async (req, res) => {
     try {
       const query = { email: req.body.email };
@@ -126,6 +130,7 @@ exports.resendConfirmOtp = [
  */
 exports.login = [
   validator.login,
+  validate,
   async (req, res) => {
     try {
       const user = await User.findOne({ email: req.body.email });

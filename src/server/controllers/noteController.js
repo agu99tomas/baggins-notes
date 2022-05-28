@@ -1,6 +1,7 @@
 const auth = require('../middlewares/jwt');
 const Note = require('../models/noteModel');
-const validator = require('../validators/noteControllerValidator');
+const { addNote } = require('../validators/noteValidator');
+const validate = require('../validators/validate');
 
 /**
  * Note list.
@@ -30,7 +31,8 @@ exports.noteList = [
  */
 exports.addNote = [
   auth,
-  validator.addNote,
+  addNote,
+  validate,
   async (req, res) => {
     try {
       const note = new Note({

@@ -1,16 +1,16 @@
 const express = require('express');
 require('dotenv').config();
 const routes = require('./routes/routes');
-const middlewares = require('./middlewares/middlewares');
-const db = require('./db/db');
+const response = require('./middlewares/response');
+const dbConnect = require('./db/dbConnect');
 
-db.connect();
+dbConnect();
 const app = express();
 
 app.listen(process.env.PORT || 8080);
 app.use(express.static('dist'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(middlewares);
+app.use(response);
 
 app.use('/api/', routes);
