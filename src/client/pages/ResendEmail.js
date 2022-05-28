@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import SendIcon from '@mui/icons-material/Send';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -16,14 +15,16 @@ import SaveIcon from '@mui/icons-material/Save';
 export default function ResendEmail() {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const email = location.state?.email;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const body = {
+    email: location.state?.email,
+    confirmUrl: `${window.location.origin}/confirmEmail`,
+  };
 
+  const handleSend = async () => {
     try {
       setLoading(true);
-      await axios.post('/api/auth/resend-verify-otp', { email });
+      await axios.post('/api/auth/resend-verify-otp', body);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
@@ -42,50 +43,40 @@ export default function ResendEmail() {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
+
         <Typography component="h1" variant="h5">
           Check your inbox
         </Typography>
-        <Box
-          component="form"
-          noValidate={false}
-          onSubmit={handleSubmit}
-          sx={{ mt: 3 }}
-        >
-          {loading ? (
-            <LoadingButton
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              loading
-              loadingPosition="start"
-              startIcon={<SaveIcon />}
-            >
-              Sending...
-            </LoadingButton>
-          ) : (
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              endIcon={<SendIcon />}
-              disabled={!email}
-            >
-              Resend email
-            </Button>
-          )}
 
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Link component={RouterLink} to="/" variant="body2">
-                Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
+        {loading ? (
+          <LoadingButton
+            variant="contained"
+            sx={{ mt: 6, mb: 2 }}
+            loading
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+          >
+            Sending...
+          </LoadingButton>
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 6, mb: 2 }}
+            endIcon={<SendIcon />}
+            disabled={!body.email}
+            onClick={handleSend}
+          >
+            Resend email
+          </Button>
+        )}
+
+        <Link component={RouterLink} to="/" variant="body2">
+          Sign in
+        </Link>
       </Box>
     </Container>
   );

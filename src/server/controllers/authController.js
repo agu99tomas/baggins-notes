@@ -12,6 +12,7 @@ const validator = require('../validators/authControllerValidator');
  * @param {string}      lastName
  * @param {string}      email
  * @param {string}      password
+ * @param {string}      confirmUrl
  *
  * @returns {Object}
  */
@@ -21,7 +22,7 @@ exports.register = [
     try {
       const hash = await encryptor.hash(req.body.password);
       const otp = OneTimePassword();
-      const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
+      const html = `Please Confirm your Account <a href="${req.body.confirmUrl}?otp=${otp}&email=${req.body.email}">Here</a>`;
 
       await sendMail(req.body.email, 'Confirm Account', html);
 
@@ -84,6 +85,7 @@ exports.verifyConfirm = [
  * Resend Confirm otp.
  *
  * @param {string}      email
+ * @param {string}      confirmUrl
  *
  * @returns {Object}
  */
@@ -98,7 +100,7 @@ exports.resendConfirmOtp = [
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
 
       const otp = OneTimePassword();
-      const html = `<p>Please Confirm your Account.</p><p>OTP: ${otp}</p>`;
+      const html = `Please Confirm your Account <a href="${req.body.confirmUrl}?otp=${otp}&email=${req.body.email}">Here</a>`;
 
       await sendMail(req.body.email, 'Confirm Account', html);
 

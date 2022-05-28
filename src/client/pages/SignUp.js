@@ -30,6 +30,7 @@ export default function SignUp() {
       password: formData.get('password'),
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
+      confirmUrl: `${window.location.origin}/confirmEmail`,
     };
 
     try {
@@ -57,7 +58,7 @@ export default function SignUp() {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
