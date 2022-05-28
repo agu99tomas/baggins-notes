@@ -47,7 +47,7 @@ exports.register = [
         email: user.email,
       };
 
-      return res.successWithData('Registration success', userData);
+      return res.success('Registration success', userData);
     } catch (err) {
       return res.serverError(err.message);
     }
@@ -154,7 +154,7 @@ exports.login = [
       };
       userData.token = sign(userData);
 
-      res.successWithData('Login Success', userData);
+      res.success('Login Success', userData);
     } catch (err) {
       return res.serverError(err.message);
     }

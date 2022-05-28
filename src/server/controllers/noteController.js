@@ -13,7 +13,7 @@ exports.noteList = [
   async (req, res) => {
     try {
       const notes = await Note.find({ user: req.auth.id });
-      return res.successWithData('Operation success', notes);
+      return res.success('Operation success', notes);
     } catch (err) {
       return res.serverError(err.message);
     }
@@ -42,7 +42,7 @@ exports.addNote = [
 
       await note.save();
 
-      return res.successWithData('Note added successfully', note);
+      return res.success('Note added successfully', note);
     } catch (err) {
       return res.serverError(err.message);
     }

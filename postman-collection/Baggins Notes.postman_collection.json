@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3512549b-feac-4d66-8140-94e7f7646277",
+		"_postman_id": "7e5f579a-d5cb-4f75-838d-b9c1b73cbac9",
 		"name": "Baggins Notes",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17828901"
 	},
 	"item": [
 		{
@@ -15,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Due\",\r\n    \"email\": \"john.doe@fantasy.com\",\r\n    \"password\": \"lotrlotrlotr\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Bilbo\",\r\n    \"lastName\": \"Baggins\",\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"password\": \"speakFriendAndEnter\",\r\n    \"confirmUrl\": \"http://localhost:3000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -33,7 +34,65 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Register user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Bilbo\",\r\n    \"lastName\": \"Baggins\",\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"password\": \"speakFriendAndEnter\",\r\n    \"confirmUrl\": \"http://localhost:3000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}/auth/register",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "150"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"96-UPGRNiNpXg2uwlYueJue3u6rmhs\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:37:10 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Registration success\",\n    \"data\": {\n        \"_id\": \"6292a416af7015acafaa96e5\",\n        \"firstName\": \"Bilbo\",\n        \"lastName\": \"Baggins\",\n        \"email\": \"bilbo6@middle-earth-email.com\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Verify OTP",
@@ -42,7 +101,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"john.doe@fantasy.com\",\r\n    \"otp\": \"9747\"\r\n}",
+							"raw": "{\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"otp\": \"7671\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -60,7 +119,65 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Verify OTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"otp\": \"9080\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}/auth/verify-otp",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"auth",
+										"verify-otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "40"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"28-mO7fxf+AUW1rR2sP0JjW8bwdWis\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:38:53 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Account confirmed success.\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Resend Confirm OTP",
@@ -69,7 +186,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"john.doe@fantasy.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"kejohat686@steamoh.com\",\r\n    \"confirmUrl\": \"http://localhost:3000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,7 +204,65 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Resend Confirm OTP",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"confirmUrl\": \"http://localhost:3000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}/auth/resend-verify-otp",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"auth",
+										"resend-verify-otp"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "31"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1f-K1gQ8U2mkn6KjfT1zaJMSkcjo+M\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:41:05 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Confirm otp sent.\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Login",
@@ -101,6 +276,15 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -108,7 +292,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"john.doe@fantasy.com\",\r\n    \"password\": \"lotrlotrlotr\"\r\n}",
+							"raw": "{\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -126,7 +310,65 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"bilbo6@middle-earth-email.com\",\r\n    \"password\": \"speakFriendAndEnter\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}/auth/login",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "464"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1d0-ZCqPYnUrCD6RDyOFoOFoWvPByxA\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:43:21 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login Success\",\n    \"data\": {\n        \"_id\": \"62929ab395f00f81560c3766\",\n        \"firstName\": \"Toms\",\n        \"lastName\": \"Ag\",\n        \"email\": \"bilbo6@middle-earth-email.com\",\n        \"initials\": \"TA\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjkyOWFiMzk1ZjAwZjgxNTYwYzM3NjYiLCJmaXJzdE5hbWUiOiJUb21zIiwibGFzdE5hbWUiOiJBZyIsImVtYWlsIjoiYmlsYm82QG1pZGRsZS1lYXJ0aC1lbWFpbC5jb20iLCJpbml0aWFscyI6IlRBIiwiaWF0IjoxNjUzNzc3ODAxLCJleHAiOjE2NTM4NjQyMDF9.7TtputPiT2ggJqUfvpaCcEaVf_dkodKR0JU4OKhcvx4\"\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -167,7 +409,64 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Add Note",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"My precious\",\r\n    \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\r\n    \"category\": \"The Misty Mountains\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{LOCAL}}/notes",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"notes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "804"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"324-aaEJa18fSwMzjNyXi7EPnPtE1mQ\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:43:47 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Note added successfully\",\n    \"data\": {\n        \"title\": \"My precious\",\n        \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n        \"category\": \"The Misty Mountains\",\n        \"_id\": \"6292a5a3af7015acafaa96fa\",\n        \"createdAt\": \"2022-05-28T22:43:47.508Z\",\n        \"updatedAt\": \"2022-05-28T22:43:47.508Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Note List",
@@ -194,7 +493,55 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Note List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}/notes",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"notes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "8474"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"211a-19j7Y4gyQOuworGPX3k7j610snk\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:43:52 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Operation success\",\n    \"data\": [\n        {\n            \"_id\": \"626f2849272fd55f25278a39\",\n            \"title\": \"My title5\",\n            \"description\": \"Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio libero assumenda amet quod, doloribus expedita perferendis officia sed architecto. Natus nulla ab suscipit quas rerum accusantium in dolor asperiores aut.Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio libero assumenda amet quod, doloribus expedita perferendis officia sed architecto. Natus nulla ab suscipit quas rerum accusantium in dolor asperiores aut.Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio libero assumenda amet quod, doloribus expedita perferendis officia sed architecto. Natus nulla ab suscipit quas rerum accusantium in dolor asperiores aut.\",\n            \"category\": \"My category\",\n            \"createdAt\": \"2022-05-02T00:39:37.535Z\",\n            \"updatedAt\": \"2022-05-02T00:39:37.535Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"628efa51ab2cc952bca6774e\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-26T03:56:01.731Z\",\n            \"updatedAt\": \"2022-05-26T03:56:01.731Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62929ad695f00f81560c37ed\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T21:57:42.021Z\",\n            \"updatedAt\": \"2022-05-28T21:57:42.021Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62929b1a95f00f81560c3986\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T21:58:50.223Z\",\n            \"updatedAt\": \"2022-05-28T21:58:50.223Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62929c3e3b6d665e64a7e82b\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:03:42.377Z\",\n            \"updatedAt\": \"2022-05-28T22:03:42.377Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62929c513b6d665e64a7e82d\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:04:01.999Z\",\n            \"updatedAt\": \"2022-05-28T22:04:01.999Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6292a59daf7015acafaa96f2\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:43:41.708Z\",\n            \"updatedAt\": \"2022-05-28T22:43:41.708Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6292a5a1af7015acafaa96f4\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:43:45.550Z\",\n            \"updatedAt\": \"2022-05-28T22:43:45.550Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6292a5a2af7015acafaa96f6\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:43:46.184Z\",\n            \"updatedAt\": \"2022-05-28T22:43:46.184Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6292a5a2af7015acafaa96f8\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:43:46.868Z\",\n            \"updatedAt\": \"2022-05-28T22:43:46.868Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6292a5a3af7015acafaa96fa\",\n            \"title\": \"My precious\",\n            \"description\": \"Trick spend escort spared Dî ship broil crawl following likely. Over Luin listening banished upset? Legs castle squeaking fact drive dies Beren free dunghill three-day brain. Percy unleashed village chief pierces summer key mattered destroying explain stays following? Glamdring permitted yellowed creamy. Triumphant better lair skin-changer fight always Smeagol safekeeping mithril money! All right, then. Keep your secrets. Bad to naysayer wriggling bare spread unleash Arwen Evenstar but cat foothold. Morgul-rats clothes text material tend ill-favored end sniff?\",\n            \"category\": \"The Misty Mountains\",\n            \"createdAt\": \"2022-05-28T22:43:47.508Z\",\n            \"updatedAt\": \"2022-05-28T22:43:47.508Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "Remove Note",
@@ -212,17 +559,66 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{LOCAL}}/notes/62661b45c212b9ad7094b779",
+							"raw": "{{LOCAL}}/notes/626f2849272fd55f25278a39",
 							"host": [
 								"{{LOCAL}}"
 							],
 							"path": [
 								"notes",
-								"62661b45c212b9ad7094b779"
+								"626f2849272fd55f25278a39"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Remove Note",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL}}/notes/626f2849272fd55f25278a39",
+									"host": [
+										"{{LOCAL}}"
+									],
+									"path": [
+										"notes",
+										"626f2849272fd55f25278a39"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "39"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"27-eRA9GiVZL6kII4bX/HmG//anwi0\""
+								},
+								{
+									"key": "date",
+									"value": "Sat, 28 May 2022 22:44:01 GMT"
+								},
+								{
+									"key": "connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Note deleted successfully\"\n}"
+						}
+					]
 				}
 			]
 		}

@@ -1,16 +1,9 @@
 const response = (_req, res, next) => {
-  res.success = (message) => {
-    const data = {
-      message,
-    };
-    return res.status(200).json(data);
-  };
-
-  res.successWithData = (message, data) => {
+  res.success = (message, data = undefined) => {
     const resData = {
       message,
-      data,
     };
+    if (data) resData.data = data;
     return res.status(200).json(resData);
   };
 
@@ -28,7 +21,7 @@ const response = (_req, res, next) => {
     return res.status(404).json(data);
   };
 
-  res.validationErrorWithData = (message, data) => {
+  res.validationError = (message, data) => {
     const resData = {
       message,
       data,
