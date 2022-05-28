@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const options = { timestamps: true };
-
 const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
@@ -16,7 +14,7 @@ const UserSchema = new Schema(
     active: { type: Boolean, required: true, default: 1 },
     notes: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
   },
-  options,
+  { timestamps: true },
 );
 
 module.exports = mongoose.model('User', UserSchema);
