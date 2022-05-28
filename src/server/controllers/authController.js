@@ -1,9 +1,11 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const OneTimePassword = require('../helpers/OneTimePassword');
-const encryptor = require('../helpers/encryptor');
-const jwtSign = require('../helpers/jwtSign');
-const sendMail = require('../helpers/sendMail');
-const validator = require('../validators/authValidator');
+const oneTimePassword = require('../helpers/oneTimePassword');
+const sign = require('../helpers/jwtSign');
+const send = require('../helpers/sendEmail');
+const {
+  register, verifyConfirm, resendConfirmOtp, login,
+} = require('../validators/authValidator');
 const validate = require('../validators/validate');
 
 /**
@@ -18,15 +20,15 @@ const validate = require('../validators/validate');
  * @returns {Object}
  */
 exports.register = [
-  validator.register,
+  register,
   validate,
   async (req, res) => {
     try {
-      const hash = await encryptor.hash(req.body.password);
-      const otp = OneTimePassword();
+      const hash = await bcrypt.hash(req.body.password, 10);
+      const otp = oneTimePassword();
       const html = `Please Confirm your Account <a href="${req.body.confirmUrl}?otp=${otp}&email=${req.body.email}">Here</a>`;
 
-      await sendMail(req.body.email, 'Confirm Account', html);
+      await send(req.body.email, 'Confirm Account', html);
 
       const user = new User({
         firstName: req.body.firstName,
@@ -61,7 +63,7 @@ exports.register = [
  * @returns {Object}
  */
 exports.verifyConfirm = [
-  validator.verifyConfirm,
+  verifyConfirm,
   validate,
   async (req, res) => {
     try {
@@ -93,7 +95,7 @@ exports.verifyConfirm = [
  * @returns {Object}
  */
 exports.resendConfirmOtp = [
-  validator.resendConfirmOtp,
+  resendConfirmOtp,
   validate,
   async (req, res) => {
     try {
@@ -103,10 +105,10 @@ exports.resendConfirmOtp = [
       if (!user) return res.unauthorized('Specified email not found.');
       if (user.isConfirmed) return res.unauthorized('Account already confirmed.');
 
-      const otp = OneTimePassword();
+      const otp = oneTimePassword();
       const html = `Please Confirm your Account <a href="${req.body.confirmUrl}?otp=${otp}&email=${req.body.email}">Here</a>`;
 
-      await sendMail(req.body.email, 'Confirm Account', html);
+      await send(req.body.email, 'Confirm Account', html);
 
       await User.findOneAndUpdate(query, {
         isConfirmed: 0,
@@ -129,7 +131,7 @@ exports.resendConfirmOtp = [
  * @returns {Object}
  */
 exports.login = [
-  validator.login,
+  login,
   validate,
   async (req, res) => {
     try {
@@ -137,7 +139,7 @@ exports.login = [
 
       if (!user) return res.unauthorized('Email or Password wrong.');
 
-      const equals = await encryptor.compare(req.body.password, user.password);
+      const equals = await bcrypt.compare(req.body.password, user.password);
 
       if (!equals) return res.unauthorized('Email or Password wrong.');
       if (!user.isConfirmed) return res.unauthorized('Account is not confirmed. Please confirm your account.');
@@ -150,7 +152,7 @@ exports.login = [
         email: user.email,
         initials: user.firstName.charAt(0) + user.lastName.charAt(0),
       };
-      userData.token = jwtSign(userData);
+      userData.token = sign(userData);
 
       res.successWithData('Login Success', userData);
     } catch (err) {

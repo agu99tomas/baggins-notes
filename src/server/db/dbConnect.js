@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-module.exports = function dbConnect() {
+const dbConnect = () => {
   const options = {
     maxPoolSize: 10,
     useNewUrlParser: true,
@@ -8,3 +8,5 @@ module.exports = function dbConnect() {
   };
   mongoose.connect('mongodb://localhost/baggins-notes', options);
 };
+
+module.exports = dbConnect;

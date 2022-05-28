@@ -1,4 +1,4 @@
-const OneTimePassword = () => {
+const oneTimePassword = () => {
   const length = 4;
   let text = '';
   const possible = '123456789';
@@ -9,4 +9,4 @@ const OneTimePassword = () => {
   return Number(text);
 };
 
-module.exports = OneTimePassword;
+module.exports = oneTimePassword;
