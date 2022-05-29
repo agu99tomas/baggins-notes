@@ -6,7 +6,7 @@ const dbConnect = () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   };
-  mongoose.connect('mongodb://localhost/baggins-notes', options);
+  mongoose.connect(process.env.MONGODB_URL, options);
 };
 
 module.exports = dbConnect;
