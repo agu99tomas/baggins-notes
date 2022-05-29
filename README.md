@@ -127,7 +127,7 @@ Express is a web application framework for Node.js. It is used to build our back
 
 [Concurrently](https://github.com/open-cli-tools/concurrently) is used to run multiple commands concurrently. I am using it to run the webpack dev server and the backend node server concurrently in the development environment
 ## VSCode + ESLint + Prettier
-[VSCode](https://code.visualstudio.com/)  lightning fast source code editor. With support for hundreds of languages.  
+[VSCode](https://code.visualstudio.com/) Lightning fast source code editor. With support for hundreds of languages.  
 [ESLint](https://eslint.org/) ESLint is a static code analysis tool for identifying problematic patterns found in JavaScript code.   
 [Prettier](https://prettier.io/) Prettier is an opinionated code formatter that supports a lot of different programming languages, like: JavaScript. JSON. JSX.
 
