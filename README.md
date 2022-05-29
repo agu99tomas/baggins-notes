@@ -4,7 +4,7 @@ Baggins notes is an example of a MERN application, with a server and client usin
 
 - [Baggins notes](#baggins-notes)
   * [MERN](#mern)
-  * [JWT or JSON Web Token](#jwt-or-json-web-token)
+  * [JWT](#jwt)
   * [Development mode](#development-mode)
   * [Production mode](#production-mode)
   * [Quick Start](#quick-start)
@@ -25,7 +25,7 @@ Baggins notes is an example of a MERN application, with a server and client usin
   
 ## MERN
 MERN stack is a web development framework. It consists of [MongoDB](https://www.mongodb.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), and [Node.js](https://nodejs.org/en/) as its working components.
-## JWT or JSON Web Token
+## JWT
 JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.
 ## Development mode
 In the development mode, we will have 2 servers running. The front end code will be served by the [webpack dev server](https://webpack.js.org/configuration/dev-server/) which helps with hot and live reloading. The server side Express code will be served by a node server using [nodemon](https://nodemon.io/) which helps in automatically restarting the server whenever server side code changes.
