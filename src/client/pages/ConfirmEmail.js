@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
-import {Link as RouterLink } from 'react-router-dom';
+import { useSearchParams, Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -9,7 +9,26 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 
 export default function ConfirmEmail() {
+  const [searchParams] = useSearchParams();
 
+  const body = {
+    email: searchParams.get('email'),
+    otp: searchParams.get('otp'),
+  };
+
+  useEffect(() => {
+    const verifyOtp = async () => {
+      try {
+        await axios.post('/api/auth/verify-otp', body);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    };
+
+    const validParams = !!(body.email && body.otp);
+    if (validParams) verifyOtp();
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
