@@ -129,7 +129,7 @@ Express is a web application framework for Node.js. It is used to build our back
 ## VSCode + ESLint + Prettier
 [VSCode](https://code.visualstudio.com/) Lightning fast source code editor. With support for hundreds of languages.  
 [ESLint](https://eslint.org/) ESLint is a static code analysis tool for identifying problematic patterns found in JavaScript code.   
-[Prettier](https://prettier.io/) Prettier is an opinionated code formatter that supports a lot of different programming languages, like: JavaScript. JSON. JSX.
+[Prettier](https://prettier.io/) Prettier is an code formatter that supports a lot of different programming languages, like: JavaScript. JSON. JSX.
 
 ## Installation guide
 
