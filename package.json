@@ -1,7 +1,7 @@
 {
   "name": "baggins-notes",
   "version": "1.0.0",
-  "description": "Full stack web application using React, Node.js, Express and Webpack.",
+  "description": "Full stack web application using React, Node.js, Express, Webpack and MongoDB.",
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
