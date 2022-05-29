@@ -39,9 +39,7 @@ exports.register = [
     .isEmail()
     .withMessage('Email must be a valid email address.')
     .custom(value => UserModel.findOne({ email: value }).then((user) => {
-      if (user) {
-        return Promise.reject(new Error('E-mail already in use'));
-      }
+      if (user) return Promise.reject(new Error('E-mail already in use'));
     })),
   body('password')
     .isLength({ min: 6 })
