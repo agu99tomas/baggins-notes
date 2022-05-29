@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 
-export default function ResendEmail() {
+export default function ConfirmEmail() {
   const [searchParams] = useSearchParams();
 
   const body = {
