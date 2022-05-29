@@ -146,6 +146,14 @@ Express is a web application framework for Node.js. It is used to build our back
     ```
 
 Above, we have modified editor configurations. Alternatively, this can be configured at the project level by following [this article](https://medium.com/@netczuk/your-last-eslint-config-9e35bace2f99).
+
+## Screenshots
+![Baggins notes app screenshot](screenshots/baggins-notes-1.png)
+![Baggins notes app screenshot](screenshots/baggins-notes-2.png)
+![Baggins notes app screenshot](screenshots/baggins-notes-3.png)
+![Baggins notes app screenshot](screenshots/baggins-notes-4.png)
+
+
 ## Acknowledgements
 
  - [simple-react-full-stack](https://github.com/crsandeep/simple-react-full-stack)
