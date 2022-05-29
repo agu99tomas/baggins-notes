@@ -1,6 +1,28 @@
 
 # Baggins notes
-Baggins notes is an example of a MERN application, with a server and client using JWT as authentication method.
+Baggins notes is an example of a MERN application, with a server and client using JWT as authentication method.  
+
+- [Baggins notes](#baggins-notes)
+  * [MERN](#mern)
+  * [JWT or JSON Web Token](#jwt-or-json-web-token)
+  * [Development mode](#development-mode)
+  * [Production mode](#production-mode)
+  * [Quick Start](#quick-start)
+    + [Configure env](#configure-env)
+    + [Run commands](#run-commands)
+  * [Documentation](#documentation)
+    + [Folder Structure](#folder-structure)
+    + [Babel](#babel)
+    + [ESLint](#eslint)
+  * [Webpack](#webpack)
+    + [Webpack dev server](#webpack-dev-server)
+  * [Nodemon](#nodemon)
+  * [Express](#express)
+  * [Concurrently](#concurrently)
+  * [VSCode + ESLint + Prettier](#vscode---eslint---prettier)
+  * [Installation guide](#installation-guide)
+  * [Acknowledgements](#acknowledgements)
+  
 ## MERN
 MERN stack is a web development framework. It consists of [MongoDB](https://www.mongodb.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), and [Node.js](https://nodejs.org/en/) as its working components.
 ## JWT or JSON Web Token
